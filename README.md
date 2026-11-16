@@ -4,11 +4,13 @@ ChurnLens is a Streamlit app that predicts whether a telecom customer is likely 
 
 The model was trained on the [Telco Customer Churn dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn).
 
+
 ## Features
 
 - **Single prediction:** Enter a customer's information to see a churn label, predicted probability, and risk level.
 - **Batch prediction:** Upload a CSV, view predictions for each customer, and download the results.
 - **Model comparison:** Compare Logistic Regression, Random Forest, and XGBoost using randomized hyperparameter search and 5-fold cross-validation.
+
 
 ## Setup
 
@@ -19,6 +21,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
+
 
 ## Run the app
 
@@ -37,6 +40,7 @@ For CSV uploads:
 5. Enter `SeniorCitizen` as `Yes`/`No` or `1`/`0`.
 6. Use plain numbers for numeric fields, without blanks or currency symbols.
 
+
 ## Model comparison
 
 I tuned three classifiers with 5-fold cross-validation and selected the model with the highest cross-validated F1 score.
@@ -49,6 +53,7 @@ I tuned three classifiers with 5-fold cross-validation and selected the model wi
 
 XGBoost had the highest cross-validated F1 score in this comparison, so it is the model used in the app. ROC-AUC measures how well the model ranks churners above non-churners; it does not change the app’s 50% cutoff.
 
+
 ## Test results
 
 At the 50% cutoff, XGBoost was evaluated on a held-out test set of 1,409 customers:
@@ -58,6 +63,7 @@ At the 50% cutoff, XGBoost was evaluated on a held-out test set of 1,409 custome
 - It missed **94** churners and incorrectly flagged **213** customers who did not churn.
 
 ![XGBoost confusion matrix on the test set](assets/confusion_matrix.png)
+
 
 ## How predictions work
 
@@ -76,6 +82,7 @@ Risk levels describe ranges of the same predicted probability:
 
 Risk levels are labels derived from the model’s output on a test set, not predictions from a separate model.
 See more details at [eda.ipynb](notebooks/eda.ipynb)
+
 
 ## Project structure
 
@@ -98,6 +105,7 @@ See more details at [eda.ipynb](notebooks/eda.ipynb)
     └── confusion_matrix.py   # Confusion matrix plot
 ```
 
+
 ## Retrain the model
 
 To reproduce the training process, place `WA_Fn-UseC_-Telco-Customer-Churn.csv` in `data/raw/`, then run:
@@ -116,6 +124,7 @@ To generate a confusion matrix from the saved test predictions, run from the pro
 ```bash
 python src/confusion_matrix.py
 ```
+
 
 ## Limitations
 
