@@ -3,12 +3,18 @@ from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
 from sklearn.metrics import classification_report, roc_auc_score
 from sklearn.model_selection import RandomizedSearchCV
-from preprocess import preprocess_data
+from preprocess import process_data
 import joblib
+from pathlib import Path
+import pandas as pd
 
+DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "raw" / "WA_Fn-UseC_-Telco-Customer-Churn.csv"
 
-#Load training and testing data
-X_train, X_test, y_train, y_test = preprocess_data()
+#Import data
+df = pd.read_csv(DATA_PATH)
+
+#Get training and testing data
+X_train, X_test, y_train, y_test = process_data(df)
 
 #Define models
 models = {
@@ -63,7 +69,10 @@ for name, m in search.items():
     print('Best parameters : ', m.best_params_)
     print(classification_report(y_test, model.predict(X_test), digits=4))
 
+#Save predictions for analyzing risk level and confusion matrix
+y_pred = best_model.predict(X_test)
+joblib.dump(y_pred, 'model/y_pred.joblib')
 
-#Save the best model which is XGBoost for use in predictions
+#Save the best model which is XGBoost for future use 
 joblib.dump(best_model, 'model/model.joblib')
 
