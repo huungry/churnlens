@@ -22,6 +22,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+Download this [Telco Customer Churn dataset](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) and put it in `data/raw/`
 
 ## Run the app
 
@@ -51,7 +52,14 @@ I tuned three classifiers with 5-fold cross-validation and selected the model wi
 | Random Forest | 0.6287 | 0.6246 | 0.8361 |
 | **XGBoost** | **0.6331** | **0.6459** | **0.8461** |
 
-XGBoost had the highest cross-validated F1 score in this comparison, so it is the model used in the app. ROC-AUC measures how well the model ranks churners above non-churners; it does not change the app’s 50% cutoff.
+XGBoost had the highest cross-validated F1 score in this comparison, so it is the model used in the app. ROC-AUC measures how well the model ranks churners above non-churners.
+
+To see full classification reports (this will take ~ 1 minute or less to see it):
+From root:
+```bash
+cd src
+python train.py
+```
 
 
 ## Test results
