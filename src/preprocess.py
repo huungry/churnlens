@@ -3,6 +3,9 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.model_selection import train_test_split
 import joblib
+from pathlib import Path
+
+MODEL_PATH = Path(__file__).resolve().parent.parent / "model"
 
 def fix_data(df):
     for col in df.select_dtypes(include=["object", "str"]).columns:
@@ -49,8 +52,8 @@ def process_data(df):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
     #Save unencoded data for analyzing risk level
-    joblib.dump(X_test, 'model/X_test_preencode.joblib')
-    joblib.dump(y_test, 'model/y_test_preencode.joblib')
+    joblib.dump(X_test, MODEL_PATH/'X_test_preencode.joblib')
+    joblib.dump(y_test, MODEL_PATH/'y_test_preencode.joblib')
 
     #Fit and transform data
     X_train = transformer.fit_transform(X_train)
@@ -59,9 +62,9 @@ def process_data(df):
     y_test = churn_encoder.transform(y_test)
 
     #Save encoded data for analyzing risk level
-    joblib.dump(X_test, 'model/X_test.joblib')
-    joblib.dump(y_test, 'model/y_test.joblib')
+    joblib.dump(X_test, MODEL_PATH/'X_test.joblib')
+    joblib.dump(y_test, MODEL_PATH/'y_test.joblib')
 
-    joblib.dump(transformer, 'model/transformer.joblib')
+    joblib.dump(transformer, '../model/transformer.joblib')
 
     return X_train, X_test, y_train, y_test

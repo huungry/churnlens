@@ -9,6 +9,7 @@ from pathlib import Path
 import pandas as pd
 
 DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "raw" / "WA_Fn-UseC_-Telco-Customer-Churn.csv"
+MODEL_PATH = Path(__file__).resolve().parent.parent / "model"
 
 #Import data
 df = pd.read_csv(DATA_PATH)
@@ -71,8 +72,8 @@ for name, m in search.items():
 
 #Save predictions for analyzing risk level and confusion matrix
 y_pred = best_model.predict(X_test)
-joblib.dump(y_pred, 'model/y_pred.joblib')
+joblib.dump(y_pred, MODEL_PATH /'y_pred.joblib')
 
 #Save the best model which is XGBoost for future use 
-joblib.dump(best_model, 'model/model.joblib')
+joblib.dump(best_model, MODEL_PATH/'model.joblib')
 
